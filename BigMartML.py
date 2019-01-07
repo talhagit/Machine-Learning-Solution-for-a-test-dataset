@@ -64,7 +64,7 @@ data.loc[miss_bool,'Item_Visibility']  = data.loc[miss_bool,'Item_Identifier'].a
 
 print ('Number of 0 values after modification: %d'%sum(data['Item_Visibility'] == 0))
 
-#Seperate new feature for Mean Ratio of Visibility 
+# Mean Ratio of Visibility 
 data['Item_Visibility_MeanRatio'] = data.apply(lambda x: x['Item_Visibility']/item_avg_visibility.at[x['Item_Identifier'],'Item_Visibility'], axis=1)
 
 print (data['Item_Visibility_MeanRatio'].describe())
@@ -79,7 +79,7 @@ data['Item_type_combined'] =data['Item_type_combined'].map({'FD':'Food',
 ## Just a backup
 data2=data
 #Mapping rows to diff values#
-data['Item_Fat_Content'].unique() = data['Item_Fat_Content'].replace({'LF':'Low Fat',
+data['Item_Fat_Content'] = data['Item_Fat_Content'].replace({'LF':'Low Fat',
                                                              'reg':'Regular',
                                                              'low fat':'Low Fat'})
 data.loc[data['Item_type_combined']=="Non-Consumable",'Item_Fat_Content'] = "Non-Edible"
