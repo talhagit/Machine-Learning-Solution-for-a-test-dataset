@@ -24,7 +24,7 @@ test['source']='test'
 data = pd.concat([train, test],ignore_index=True)## concating both data sets, we will seperate those later
 print(train.shape,test.shape,data.shape)
 
-
+                                                ###Some Analysis###
 ##Check for missing values
 data.apply(lambda x: sum(x.isnull()))## 
 
@@ -40,7 +40,7 @@ for col in categorical_cols:
     print ('\nFrequency of Categories for varible %s'%col)
     print (data[col].value_counts())
     
-## Filling Missing data##
+                                                ### Filling Missing data###
 # Item Weight contains null rows
 item_avg_weight=data.pivot_table(values='Item_Weight',index='Item_Identifier') ## Getting Avg weight for filling missing values
 miss_bool = data['Item_Weight'].isnull()
@@ -55,7 +55,7 @@ data['Outlet_Size']=data['Outlet_Size'].fillna(data['Outlet_Size'].mode()[0], in
 
 data.pivot_table(values='Item_Outlet_Sales',index='Outlet_Type')
 
-### Feature  Engineering : Adding New Features###
+                                     ### Feature  Engineering : Adding New Features###
 
 # Filling item visibility '0' values with mean
 item_avg_visibility=data.pivot_table(values='Item_Visibility',index='Item_Identifier')
@@ -64,7 +64,7 @@ data.loc[miss_bool,'Item_Visibility']  = data.loc[miss_bool,'Item_Identifier'].a
 
 print ('Number of 0 values after modification: %d'%sum(data['Item_Visibility'] == 0))
 
-# Mean Ratio of Visibility 
+#Seperate new feature for Mean Ratio of Visibility 
 data['Item_Visibility_MeanRatio'] = data.apply(lambda x: x['Item_Visibility']/item_avg_visibility.at[x['Item_Identifier'],'Item_Visibility'], axis=1)
 
 print (data['Item_Visibility_MeanRatio'].describe())
@@ -84,7 +84,7 @@ data['Item_Fat_Content'] = data['Item_Fat_Content'].replace({'LF':'Low Fat',
                                                              'low fat':'Low Fat'})
 data.loc[data['Item_type_combined']=="Non-Consumable",'Item_Fat_Content'] = "Non-Edible"
 
-##SKlearn ML##
+                                                   ###SKlearn ML###
 ## Converting Cat to Numerical type for SK Learn train
 le = LabelEncoder()
 
